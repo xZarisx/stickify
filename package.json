@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/xZarisx/stickify/issues"
   },
-  "homepage": "https://github.com/xZarisx/stickify"
+  "homepage": "https://github.com/xZarisx/stickify",
+  "dependencies": {
+    "in-stalk": "^2.0.1"
+  }
 }
