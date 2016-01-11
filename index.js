@@ -1,30 +1,27 @@
-import polyfill from 'polyfill-custom-event';
 import inStalk from 'in-stalk';
 
-var windowEvents = ['scroll', 'resize', 'load', 'hashchange', 'touchend'],
-    windowChange = new CustomEvent('windowChange'),
+var addListners = function (sticky, watch) {
+    var boxCheck = function(){
+            if (watch.getBoundingClientRect().top < 0 && watch.getBoundingClientRect().bottom > buffer) {
+                sticky.classList.add('is-sticky');
+            } else {
+                sticky.classList.remove('is-sticky');
+            }
+        };
 
-    //TODO replace with in-stalk
-    boxCheck = function(child, parent = child.parentElement, buffer = 50){
-        if (parent.getBoundingClientRect().top < 0 && parent.getBoundingClientRect().bottom > buffer) {
-            child.classList.add('is-sticky');
-        } else {
-            child.classList.remove('is-sticky');
-        }
-    };
+    window.addEventListener('in-stalk.in.top', boxCheck);
+    window.addEventListener('in-stalk.out.top', boxCheck);
+    window.addEventListener('in-stalk.in.bottom', boxCheck);
+    window.addEventListener('in-stalk.out.bottom', boxCheck);
+};
+//TODO add a way to manage multiple elements and watchers
 
-windowEvents.map(function(event){
-    window.addEventListener(event, function(){
-        window.dispatchEvent(windowChange);
-    });
-});
-
-export default function(stickyElement, elementWatch){
-    // inStalk.add
-
-    if(!!stickyElement && !!elementWatch){
-        window.addEventListener('windowChange', function(){
-            boxCheck(stickyElement, elementWatch, 100);
-        });
+export default function(stickyElement, elementWatch = stickyElement){
+    if (elementWatch) {
+        inStalk.add(elementWatch);
     }
+    else {
+        inStalk.add(stickyElement);
+    }
+    addListners(stickyElement, elementWatch);
 }
