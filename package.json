@@ -4,6 +4,7 @@
   "description": "A module to make any element stick to the top of the page once it has been scrolled past.",
   "main": "index.js",
   "scripts": {
+    "example": "http-server ./example",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +18,8 @@
   "homepage": "https://github.com/xZarisx/stickify",
   "dependencies": {
     "in-stalk": "^2.0.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.5"
   }
 }

@@ -1,0 +1,16 @@
+.wrapper{
+    height: 150vh;
+    background-color: lightblue;
+}
+.header{
+    position: absolute;
+    background-color: orange;
+    width: 100%;
+}
+.header + *{
+    padding-top: 1.5em;
+}
+.watcher{
+    height: 10vh;
+    background-color: lightgreen;
+}
