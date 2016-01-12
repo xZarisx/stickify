@@ -1,27 +1,34 @@
 import inStalk from 'in-stalk';
 
-var addListners = function (sticky, watch) {
-    var boxCheck = function(){
-            if (watch.getBoundingClientRect().top < 0 && watch.getBoundingClientRect().bottom > buffer) {
-                sticky.classList.add('is-sticky');
-            } else {
-                sticky.classList.remove('is-sticky');
-            }
-        };
+var stickyArray = [],
+    boxCheck = function (sticky, watch, buffer){
+        if (watch.getBoundingClientRect().top < 0 && watch.getBoundingClientRect().bottom > buffer) {
+            sticky.classList.add('is-sticky');
+        } else {
+            sticky.classList.remove('is-sticky');
+        }
+    },
+    checkEach = function (event) {
+        var target = event.target;
 
-    window.addEventListener('in-stalk.in.top', boxCheck);
-    window.addEventListener('in-stalk.out.top', boxCheck);
-    window.addEventListener('in-stalk.in.bottom', boxCheck);
-    window.addEventListener('in-stalk.out.bottom', boxCheck);
-};
-//TODO add a way to manage multiple elements and watchers
+        stickyArray.filter(function (stickyObj) {
+            return stickyObj.watch === target;
+        })
+        .map(function (stickyObj) {
+            boxCheck(stickyObj.sticky, stickyObj.watch, stickyObj.buffer);
+        });
+    };
 
-export default function(stickyElement, elementWatch = stickyElement){
-    if (elementWatch) {
-        inStalk.add(elementWatch);
-    }
-    else {
-        inStalk.add(stickyElement);
-    }
-    addListners(stickyElement, elementWatch);
+    window.addEventListener('in-stalk.in.top', checkEach);
+    window.addEventListener('in-stalk.out.top', checkEach);
+    window.addEventListener('in-stalk.in.bottom', checkEach);
+    window.addEventListener('in-stalk.out.bottom', checkEach);
+
+export default function(stickyElement, elementWatch = stickyElement, buff = 50){
+    inStalk.add(elementWatch);
+    stickyArray.push({
+        sticky: stickyElement,
+        watch: elementWatch,
+        buffer: buff
+    });
 }
