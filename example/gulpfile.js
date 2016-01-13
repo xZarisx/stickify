@@ -8,10 +8,6 @@ var gulp = require('gulp'),
 
 
 // Application Scripts
-gulp.task('clean', function(cb) {
-	$.del(['examplePublic.js'], cb);
-});
-
 gulp.task('lint', function() {
 	return gulp.src(['exampleSrc.js'])
 		// .pipe($.cached('js'))
@@ -20,7 +16,7 @@ gulp.task('lint', function() {
     	.pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('build', ['lint', 'clean'], function(){
+gulp.task('build', ['lint'], function(){
 
 	return gulp.src('exampleSrc.js')
 	// return gulp.src(['src/layouts/**/*.js', 'src/document-templates/**/*.js'])
@@ -33,5 +29,5 @@ gulp.task('build', ['lint', 'clean'], function(){
 		.pipe( $.babel() )
 		.pipe( $.rename('examplePublic.js'))
 		// .pipe($.flatten() ) // <-- #2 uncomment this to NOT concatenate scripts
-		.pipe( gulp.dest('/'));
+		.pipe( gulp.dest(''));
 });

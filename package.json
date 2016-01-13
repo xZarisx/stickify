@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "example": "http-server ./example",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildExample": "gulp --gulpfile example/gulpfile.js build"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,16 @@
     "in-stalk": "^2.0.1"
   },
   "devDependencies": {
-    "http-server": "^0.8.5"
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-jshint": "^2.0.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rollup": "^1.7.0",
+    "http-server": "^0.8.5",
+    "jshint-stylish": "^2.1.0",
+    "rollup-plugin-commonjs": "^1.4.0",
+    "rollup-plugin-npm": "^1.1.0"
   }
 }
