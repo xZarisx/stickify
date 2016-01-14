@@ -1,3 +1,4 @@
 import stickify from '../index';
-
-stickify();
+var header = document.querySelector('.header');
+var watcher = document.querySelector('.watcher');
+stickify(header, watcher);

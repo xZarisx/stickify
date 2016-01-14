@@ -5,7 +5,9 @@ var gulp = require('gulp'),
 	// `require` statements...
 	$ = require('gulp-load-plugins')({pattern: ['gulp-*', 'gulp.*', '*']});
 
-
+gulp.task('watch', ['build'], function() {
+	gulp.watch(['exampleSrc.js', '../index.js'], ['build'] );
+});
 
 // Application Scripts
 gulp.task('lint', function() {

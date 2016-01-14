@@ -4,6 +4,7 @@
   "description": "A module to make any element stick to the top of the page once it has been scrolled past.",
   "main": "index.js",
   "scripts": {
+    "exampleWatch": "gulp --gulpfile example/gulpfile.js watch",
     "example": "http-server ./example",
     "test": "echo \"Error: no test specified\" && exit 1",
     "buildExample": "gulp --gulpfile example/gulpfile.js build"
@@ -21,9 +22,11 @@
     "in-stalk": "^2.0.1"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
+    "gulp-es6-module-transpiler": "^0.2.2",
     "gulp-jshint": "^2.0.0",
     "gulp-load-plugins": "^1.2.0",
     "gulp-rename": "^1.2.2",

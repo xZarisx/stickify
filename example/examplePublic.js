@@ -1,15 +1,18 @@
+'use strict';
+
 (function () {
     'use strict';
 
-    let polyfilled = false;
+    var polyfilled = false;
 
     if (typeof window.CustomEvent !== "function") {
+        var CustomEvent$1 = function CustomEvent$1(event) {
+            var params = arguments.length <= 1 || arguments[1] === undefined ? { bubbles: false, cancelable: false, detail: undefined } : arguments[1];
 
-        function CustomEvent$1(event, params = { bubbles: false, cancelable: false, detail: undefined }) {
             var evt = document.createEvent('CustomEvent');
             evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
             return evt;
-        }
+        };
 
         CustomEvent$1.prototype = window.Event.prototype;
 
@@ -28,12 +31,12 @@
         return element.offsetParent !== null && bounds.bottom >= 0 && bounds.top <= window.innerHeight && bounds.right >= 0 && bounds.left <= window.innerWidth;
     }
 
-    let isWatching = false;
-    let initialized = false;
-    let watchedItems = [];
-    let standardEvents = ['load', 'scroll', 'hashchange', 'touchend', 'resize'];
-    let customEvents = [];
-    let registerWatchListChange = function () {
+    var isWatching = false;
+    var initialized = false;
+    var watchedItems = [];
+    var standardEvents = ['load', 'scroll', 'hashchange', 'touchend', 'resize'];
+    var customEvents = [];
+    var registerWatchListChange = function registerWatchListChange() {
 
         if (watchedItems.length > 0 && !isWatching) {
             attach();
@@ -41,15 +44,19 @@
             detach();
         }
     };
-    let attach = function () {
+    var attach = function attach() {
         isWatching = true;
-        standardEvents.concat(customEvents).forEach(ev => window.addEventListener(ev, checkItems));
+        standardEvents.concat(customEvents).forEach(function (ev) {
+            return window.addEventListener(ev, checkItems);
+        });
     };
-    let detach = function () {
+    var detach = function detach() {
         isWatching = false;
-        standardEvents.concat(customEvents).forEach(ev => window.removeEventListener(ev, checkItems));
+        standardEvents.concat(customEvents).forEach(function (ev) {
+            return window.removeEventListener(ev, checkItems);
+        });
     };
-    let checkItem = function (item) {
+    var checkItem = function checkItem(item) {
         var inview = isInView(item.element);
 
         if (item.status === 'in' && !inview) {
@@ -68,14 +75,14 @@
             }
         }
     };
-    let checkItems = function () {
+    var checkItems = function checkItems() {
         initialized = true;
         watchedItems.forEach(checkItem);
     };
     var inStalk = {
 
         // add element to stalk list
-        add: function (element) {
+        add: function add(element) {
             var config = {
                 element: element,
                 status: 'new'
@@ -91,8 +98,10 @@
         },
 
         // remove an element from stalk list
-        remove: function (element) {
-            var newlist = watchedItems.filter(item => item.element !== element);
+        remove: function remove(element) {
+            var newlist = watchedItems.filter(function (item) {
+                return item.element !== element;
+            });
 
             if (newlist.length !== watchedItems.length) {
                 watchedItems = newlist;
@@ -103,15 +112,19 @@
             return false;
         },
 
-        listenFor: function (eventName) {
+        listenFor: function listenFor(eventName) {
             detach();
-            customEvents = customEvents.filter(ev => ev !== eventName).concat(eventName);
+            customEvents = customEvents.filter(function (ev) {
+                return ev !== eventName;
+            }).concat(eventName);
             registerWatchListChange();
         },
 
-        ignore: function (eventName) {
+        ignore: function ignore(eventName) {
             detach();
-            customEvents = customEvents.filter(ev => ev !== eventName);
+            customEvents = customEvents.filter(function (ev) {
+                return ev !== eventName;
+            });
             registerWatchListChange();
         },
 
@@ -120,35 +133,39 @@
     };
 
     var stickyArray = [];
-    var boxCheck = function (sticky, watch, buffer) {
-        if (watch.getBoundingClientRect().top < 0 && watch.getBoundingClientRect().bottom > buffer) {
+    var boxCheck = function boxCheck(sticky, watch) {
+        if (watch.getBoundingClientRect().top < 0 && watch.getBoundingClientRect().bottom > 0 && sticky.getBoundingClientRect().bottom < 0) {
             sticky.classList.add('is-sticky');
         } else {
             sticky.classList.remove('is-sticky');
         }
     };
-    var checkEach = function (event) {
+    var checkEach = function checkEach(event) {
         var target = event.target;
 
         stickyArray.filter(function (stickyObj) {
-            return stickyObj.watch === target;
+            return stickyObj.sticky === target || stickyObj.watch === target;
         }).map(function (stickyObj) {
-            boxCheck(stickyObj.sticky, stickyObj.watch, stickyObj.buffer);
+            boxCheck(stickyObj.sticky, stickyObj.watch);
         });
     };
     window.addEventListener('in-stalk.in.top', checkEach);
     window.addEventListener('in-stalk.out.top', checkEach);
-    window.addEventListener('in-stalk.in.bottom', checkEach);
-    window.addEventListener('in-stalk.out.bottom', checkEach);
+    // window.addEventListener('in-stalk.in.bottom', checkEach);
+    // window.addEventListener('in-stalk.out.bottom', checkEach);
 
-    function stickify(stickyElement, elementWatch = stickyElement, buff = 50) {
+    function stickify(stickyElement) {
+        var elementWatch = arguments.length <= 1 || arguments[1] === undefined ? stickyElement : arguments[1];
+
         inStalk.add(elementWatch);
+        inStalk.add(stickyElement);
         stickyArray.push({
             sticky: stickyElement,
-            watch: elementWatch,
-            buffer: buff
+            watch: elementWatch
         });
     }
 
-    stickify();
+    var header = document.querySelector('.header');
+    var watcher = document.querySelector('.watcher');
+    stickify(header, watcher);
 })();
