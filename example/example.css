@@ -4,7 +4,7 @@
 }
 .header{
     position: absolute;
-    background-color: orange;
+    background-color: cyan;
     width: 100%;
 }
 .header + *{
@@ -13,4 +13,8 @@
 .watcher{
     height: 10vh;
     background-color: lightgreen;
+}
+.is-sticky{
+    position: fixed;
+    top: 0;
 }

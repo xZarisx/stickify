@@ -134,6 +134,8 @@
 
     var stickyArray = [];
     var boxCheck = function boxCheck(sticky, watch) {
+        console.log('top', watch.getBoundingClientRect().top);
+        console.log('bottom', watch.getBoundingClientRect().bottom);
         if (watch.getBoundingClientRect().top < 0 && watch.getBoundingClientRect().bottom > 0 && sticky.getBoundingClientRect().bottom < 0) {
             sticky.classList.add('is-sticky');
         } else {
