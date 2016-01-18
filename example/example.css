@@ -4,7 +4,7 @@
 }
 .header{
     position: absolute;
-    background-color: cyan;
+    background-color: teal;
     width: 100%;
 }
 .header + *{
