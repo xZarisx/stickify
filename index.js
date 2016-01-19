@@ -26,8 +26,10 @@ var stickyArray = [],
 
     window.addEventListener('in-stalk.in.top', checkEach);
     window.addEventListener('in-stalk.out.top', checkEach);
-    // window.addEventListener('in-stalk.in.bottom', checkEach);
-    // window.addEventListener('in-stalk.out.bottom', checkEach);
+
+    //Waiting for in-stalk to add these events
+    window.addEventListener('in-stalk.top.enter', checkEach);
+    window.addEventListener('in-stalk.top.exit', checkEach);
 
 export default function(stickyElement, elementWatch = stickyElement){
     inStalk.add(elementWatch);
